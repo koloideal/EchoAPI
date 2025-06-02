@@ -5,6 +5,7 @@ description = "Simple echo API with auth"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "asyncpg>=0.30.0",
     "dishka>=1.6.0",
-    "fastapi>=0.115.12",
+    "fastapi[standard]>=0.115.12",
 ]

@@ -10,3 +10,5 @@ uv.lock
 # Virtual environments
 .venv
 .idea
+
+# Secret data
