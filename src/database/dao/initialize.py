@@ -9,7 +9,8 @@ class InitializeDatabaseInteractor:
         table_create_queries: list[str] = ['''CREATE TABLE IF NOT EXISTS users (
                                               id SERIAL PRIMARY KEY,
                                               username TEXT UNIQUE NOT NULL,
-                                              password TEXT NOT NULL)'''
+                                              password TEXT NOT NULL,
+                                              is_active BOOLEAN NOT NULL)'''
                                            ]
         async with self.connector as connection:
             for table_create_query in table_create_queries:

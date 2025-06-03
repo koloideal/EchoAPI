@@ -8,6 +8,7 @@ class UsersDTO:
     def get_user(user: Record | None) -> User | None:
         if user:
             return User(username=user['username'],
-                        password=user['password'])
+                        password=user['password'],
+                        is_active=user['is_active'])
         else:
             return None
