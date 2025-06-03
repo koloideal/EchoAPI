@@ -6,9 +6,20 @@ class PGConnector:
     _kwargs = None
     _instance = None
 
-    def __new__(cls, **kwargs):
+    def __new__(cls,
+                user: str,
+                password: str,
+                host: str = 'localhost',
+                port: int = 5432,
+                database: str | None = 'echoapi'):
         if cls._instance is None:
-            cls._kwargs = kwargs
+            cls._kwargs = {'user': user,
+                           'password': password,
+                           'host': host,
+                           'port': port}
+            if database:
+                cls._kwargs['database'] = database
+
             cls._instance = super(PGConnector, cls).__new__(cls)
 
         return cls._instance
@@ -21,8 +32,5 @@ class PGConnector:
         await self.connection.close()
 
     @classmethod
-    def __del__(cls):
-        if cls._instance:
-            del cls
-
-
+    def change_database(cls, database: str = 'echoapi'):
+        cls._kwargs['database'] = database

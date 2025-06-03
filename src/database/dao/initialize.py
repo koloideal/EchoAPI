@@ -5,11 +5,11 @@ class InitializeDatabaseInteractor:
     def __init__(self, connector: PGConnector):
         self.connector = connector
 
-    async def create_tables(self) -> None:
-        table_create_queries: list[str] = ["""CREATE TABLE IF NOT EXISTS users (
+    async def _create_tables(self) -> None:
+        table_create_queries: list[str] = ['''CREATE TABLE IF NOT EXISTS users (
                                               id SERIAL PRIMARY KEY,
-                                              username TEXT NOT NULL,
-                                              password TEXT NOT NULL"""
+                                              username TEXT UNIQUE NOT NULL,
+                                              password TEXT NOT NULL)'''
                                            ]
         async with self.connector as connection:
             for table_create_query in table_create_queries:
@@ -17,24 +17,19 @@ class InitializeDatabaseInteractor:
 
         return
 
-    async def create_database(self) -> None:
-        query = """DO
-                   $$
-                   BEGIN
-                      IF NOT EXISTS (
-                         SELECT FROM pg_database WHERE datname = 'echoapi'
-                      ) THEN
-                         CREATE DATABASE echoapi;
-                      END IF;
-                   END
-                   $$;"""
-        async with self.connector as connection:
-            await connection.execute(query)
+    async def _create_database(self) -> None:
+        query = """SELECT FROM pg_database WHERE datname = 'echoapi'"""
+        async with self.connector as conn:
+            is_exists = await conn.execute(query)
 
-        del PGConnector
+        if is_exists == 'SELECT 0':
+            query: str = '''CREATE DATABASE echoapi'''
+            async with self.connector as conn:
+                await conn.execute(query)
+        self.connector.change_database('echoapi')
         return
 
-    def __call__(self, username: str, password: str, host: str, port: int) -> None:
-        self.username = username
-        self.password = password
+    async def __call__(self) -> None:
+        await self._create_database()
+        await self._create_tables()
 
