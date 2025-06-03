@@ -10,7 +10,6 @@ from src.routers.security_router import security_router
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/oauth2/token")
-
 database_config: dict = GetConfig().get_database_config()
 
 

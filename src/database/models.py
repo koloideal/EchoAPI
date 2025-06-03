@@ -1,5 +1,6 @@
 class User:
     __slots__ = ('username', 'password', 'is_active')
+
     def __init__(self, username: str = None, password: str = None, is_active: bool = None):
         self.username = username
         self.password = password
