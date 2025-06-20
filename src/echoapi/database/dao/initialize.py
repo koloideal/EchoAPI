@@ -1,4 +1,4 @@
-from src.database.connector import PGConnector
+from echoapi.database.connector import PGConnector
 
 
 class InitializeDatabaseInteractor:

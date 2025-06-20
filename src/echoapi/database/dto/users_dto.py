@@ -1,6 +1,6 @@
 from asyncpg import Record
 
-from src.database.models import User
+from echoapi.database.models import User
 
 
 class UsersDTO:

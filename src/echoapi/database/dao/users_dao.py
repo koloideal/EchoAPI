@@ -1,5 +1,5 @@
-from src.database.connector import PGConnector
-from src.database.dto.users_dto import UsersDTO
+from echoapi.database.connector import PGConnector
+from echoapi.database.dto.users_dto import UsersDTO
 
 
 class UsersDAO:
